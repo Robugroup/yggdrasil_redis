@@ -27,5 +27,5 @@
   "redix_pubsub": {:hex, :redix_pubsub, "0.4.2", "1fa2b79fdca4c8a7722da92c2afb98ce531a9653c261629e131335dfdc061d1d", [:mix], [{:connection, "~> 1.0", [hex: :connection, repo: "hexpm", optional: false]}, {:redix, "~> 0.6.0", [hex: :redix, repo: "hexpm", optional: false]}], "hexpm"},
   "skogsra": {:hex, :skogsra, "0.2.2", "b8385f0cc8da0683bfaa5aab70a48001b7635edca68f9a3cc700b2f9ab7209ca", [:mix], [], "hexpm"},
   "uuid": {:hex, :uuid, "1.1.8", "e22fc04499de0de3ed1116b770c7737779f226ceefa0badb3592e64d5cfb4eb9", [:mix], [], "hexpm"},
-  "yggdrasil": {:git, "https://github.com/gmtprime/yggdrasil.git", "884f6f628081f55dc3a3d4c0bf3347cac384ff2f", [branch: "4.0.0"]},
+  "yggdrasil": {:git, "https://github.com/gmtprime/yggdrasil.git", "1ad0871786d8d56b63cc2337d096f002593269d0", [branch: "4.0.0"]},
 }
