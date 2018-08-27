@@ -1,0 +1,131 @@
+# Redis adapter for Yggdrasil
+
+[![Build Status](https://travis-ci.org/gmtprime/yggdrasil_redis.svg?branch=master)](https://travis-ci.org/gmtprime/yggdrasil_redis) [![Hex pm](http://img.shields.io/hexpm/v/yggdrasil_redis.svg?style=flat)](https://hex.pm/packages/yggdrasil_redis) [![hex.pm downloads](https://img.shields.io/hexpm/dt/yggdrasil_redis.svg?style=flat)](https://hex.pm/packages/yggdrasil_redis)
+
+This project is a Redis adapter for `Yggdrasil` pub/sub.
+
+![demo](https://raw.githubusercontent.com/gmtprime/yggdrasil_redis/master/images/demo.gif)
+
+## Small example
+
+The following example uses Redis adapter to distribute messages:
+
+```elixir
+iex(1)> channel = %Yggdrasil.Channel{name: "some_channel", adapter: :redis}
+iex(2)> Yggdrasil.subscribe(channel)
+iex(3)> flush()
+{:Y_CONNECTED, %YggdrasilChannel{(...)}}
+```
+
+and to publish a message for the subscribers:
+
+```elixir
+iex(4)> Yggdrasil.publish(channel, "message")
+iex(5)> flush()
+{:Y_EVENT, %Yggdrasil.Channel{(...)}, "message"}
+```
+
+When the subscriber wants to stop receiving messages, then it can unsubscribe
+from the channel:
+
+```elixir
+iex(6)> Yggdrasil.unsubscribe(channel)
+iex(7)> flush()
+{:Y_DISCONNECTED, %Yggdrasil.Channel{(...)}}
+```
+
+## Redis adapter
+
+The Redis adapter has the following rules:
+  * The `adapter` name is identified by the atom `:redis`.
+  * The channel `name` must be a string.
+  * The `transformer` must encode to a string. From the `transformer`s provided
+  it defaults to `:default`, but `:json` can also be used.
+  * Any `backend` can be used (by default is `:default`).
+
+The following is a valid channel for both publishers and subscribers:
+
+```elixir
+%Yggdrasil.Channel{
+  name: "redis_channel_name",
+  adapter: :redis,
+  transformer: :json
+}
+```
+
+It will expect valid JSONs from Redis and it will write valid JSONs in Redis.
+
+## Redis configuration
+
+Uses the list of options for `Redix`, but the more relevant optuons are shown
+below:
+  * `hostname` - Redis hostname (defaults to `"localhost"`).
+  * `port` - Redis port (defaults to `6379`).
+  * `password` - Redis password (defaults to `""`).
+
+The following shows a configuration with and without namespace:
+
+```elixir
+# Without namespace
+config :yggdrasil,
+  redis: [hostname: "redis.zero"]
+
+# With namespace
+config :yggdrasil, RedisOne,
+  redis: [
+    hostname: "redis.one",
+    port: 1234
+  ]
+```
+
+Also the options can be provided as OS environment variables. The available
+variables are:
+
+  * `YGGDRASIL_REDIS_HOSTNAME` or `<NAMESPACE>_YGGDRASIL_REDIS_HOSTNAME`.
+  * `YGGDRASIL_REDIS_PORT` or `<NAMESPACE>_YGGDRASIL_REDIS_PORT`.
+  * `YGGDRASIL_REDIS_PASSWORD` or `<NAMESPACE>_YGGDRASIL_REDIS_PASSWORD`.
+  * `YGGDRASIL_REDIS_DATABASE` or `<NAMESPACE>_YGGDRASIL_REDIS_DATABASE`.
+
+where `<NAMESPACE>` is the snakecase of the namespace chosen e.g. for the
+namespace `RedisTwo`, you would use `REDIS_TWO` as namespace in the OS
+environment variable.
+
+## Installation
+
+Using this Redis adapter with `Yggdrasil` is a matter of adding the available
+hex package to your `mix.exs` file e.g:
+
+```elixir
+def deps do
+  [{:yggdrasil_redis, "~> 4.0"}]
+end
+```
+
+## Running the tests
+
+A `docker-compose.yml` file is provided with the project. If  you don't have a
+Redis database, but you do have Docker installed, then just do:
+
+```
+$ docker-compose up --build
+```
+
+And in another shell run:
+
+```
+$ mix deps.get
+$ mix test
+```
+
+## Relevant projects used
+
+  * [`Redix.PubSub`](https://github.com/whatyouhide/redix_pubsub): Redis pubsub.
+
+## Author
+
+Alexander de Sousa.
+
+## License
+
+`Yggdrasil` is released under the MIT License. See the LICENSE file for further
+details.
