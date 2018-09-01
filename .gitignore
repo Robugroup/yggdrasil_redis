@@ -27,3 +27,6 @@ yggdrasil_redis-*.tar
 
 # Hidden files
 .*
+
+# ttyrecords
+ttyrecord

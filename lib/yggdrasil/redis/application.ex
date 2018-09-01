@@ -1,6 +1,8 @@
 defmodule Yggdrasil.Redis.Application do
   @moduledoc """
-  Module that defines Yggdrasil with Redis support.
+  [![Build Status](https://travis-ci.org/gmtprime/yggdrasil_redis.svg?branch=master)](https://travis-ci.org/gmtprime/yggdrasil_redis) [![Hex pm](http://img.shields.io/hexpm/v/yggdrasil_redis.svg?style=flat)](https://hex.pm/packages/yggdrasil_redis) [![hex.pm downloads](https://img.shields.io/hexpm/dt/yggdrasil_redis.svg?style=flat)](https://hex.pm/packages/yggdrasil_redis)
+
+  This project is a Redis adapter for `Yggdrasil` publisher/subscriber.
 
   ![demo](https://raw.githubusercontent.com/gmtprime/yggdrasil_redis/master/images/demo.gif)
 
@@ -8,7 +10,7 @@ defmodule Yggdrasil.Redis.Application do
 
   The following example uses Redis adapter to distribute messages:
 
-  ```
+  ```elixir
   iex(1)> channel = %Yggdrasil.Channel{name: "some_channel", adapter: :redis}
   iex(2)> Yggdrasil.subscribe(channel)
   iex(3)> flush()
@@ -17,7 +19,7 @@ defmodule Yggdrasil.Redis.Application do
 
   and to publish a message for the subscribers:
 
-  ```
+  ```elixir
   iex(4)> Yggdrasil.publish(channel, "message")
   iex(5)> flush()
   {:Y_EVENT, %Yggdrasil.Channel{(...)}, "message"}
@@ -26,7 +28,7 @@ defmodule Yggdrasil.Redis.Application do
   When the subscriber wants to stop receiving messages, then it can unsubscribe
   from the channel:
 
-  ```
+  ```elixir
   iex(6)> Yggdrasil.unsubscribe(channel)
   iex(7)> flush()
   {:Y_DISCONNECTED, %Yggdrasil.Channel{(...)}}
@@ -41,9 +43,10 @@ defmodule Yggdrasil.Redis.Application do
     it defaults to `:default`, but `:json` can also be used.
     * Any `backend` can be used (by default is `:default`).
 
-  The following is a valid channel for both publishers and subscribers:
+  The following is an example of a valid channel for both publishers and
+  subscribers:
 
-  ```
+  ```elixir
   %Yggdrasil.Channel{
     name: "redis_channel_name",
     adapter: :redis,
@@ -63,7 +66,7 @@ defmodule Yggdrasil.Redis.Application do
 
   The following shows a configuration with and without namespace:
 
-  ```
+  ```elixir
   # Without namespace
   config :yggdrasil,
     redis: [hostname: "redis.zero"]
@@ -87,6 +90,17 @@ defmodule Yggdrasil.Redis.Application do
   where `<NAMESPACE>` is the snakecase of the namespace chosen e.g. for the
   namespace `RedisTwo`, you would use `REDIS_TWO` as namespace in the OS
   environment variable.
+
+  ## Installation
+
+  Using this Redis adapter with `Yggdrasil` is a matter of adding the available
+  hex package to your `mix.exs` file e.g:
+
+  ```elixir
+  def deps do
+    [{:yggdrasil_redis, "~> 4.0"}]
+  end
+  ```
   """
   use Application
 
