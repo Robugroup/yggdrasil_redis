@@ -26,7 +26,7 @@ defmodule YggdrasilRedis.MixProject do
 
   defp deps do
     [
-      {:yggdrasil, git: "https://github.com/gmtprime/yggdrasil.git", branch: "4.0.0"},
+      {:yggdrasil, "~> 4.0.0"},
       {:redix_pubsub, "~> 0.4"},
       {:uuid, "~> 1.1", only: [:dev, :test]},
       {:ex_doc, "~> 0.18.4", only: :dev},
