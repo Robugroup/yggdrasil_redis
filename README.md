@@ -98,7 +98,7 @@ hex package to your `mix.exs` file e.g:
 
 ```elixir
 def deps do
-  [{:yggdrasil_redis, "~> 4.0"}]
+  [{:yggdrasil_redis, "~> 4.1"}]
 end
 ```
 

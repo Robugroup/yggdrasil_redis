@@ -1,7 +1,8 @@
 defmodule YggdrasilRedis.MixProject do
   use Mix.Project
 
-  @version "4.0.0"
+  @version "4.1.0"
+  @root "https://github.com/gmtprime/yggdrasil_redis"
 
   def project do
     [
@@ -10,12 +11,14 @@ defmodule YggdrasilRedis.MixProject do
       elixir: "~> 1.6",
       build_embedded: Mix.env == :prod,
       start_permanent: Mix.env() == :prod,
-      description: description(),
       package: package(),
-      docs: docs(),
-      deps: deps()
+      deps: deps(),
+      docs: docs()
     ]
   end
+
+  #############
+  # Application
 
   def application do
     [
@@ -26,29 +29,57 @@ defmodule YggdrasilRedis.MixProject do
 
   defp deps do
     [
-      {:yggdrasil, "~> 4.0.0"},
+      {:yggdrasil, "~> 4.1"},
       {:redix_pubsub, "~> 0.4"},
       {:uuid, "~> 1.1", only: [:dev, :test]},
       {:ex_doc, "~> 0.18.4", only: :dev},
-      {:credo, "~> 0.9", only: :dev}
+      {:credo, "~> 0.10", only: :dev}
     ]
   end
 
-  defp docs do
-    [source_url: "https://github.com/gmtprime/yggdrasil_redis",
-     source_ref: "v#{@version}",
-     main: Yggdrasil.Redis.Application]
-  end
-
-  defp description do
-    """
-    Redis adapter for Yggdrasil.
-    """
-  end
+  #########
+  # Package
 
   defp package do
-    [maintainers: ["Alexander de Sousa"],
-     licenses: ["MIT"],
-     links: %{"Github" => "https://github.com/gmtprime/yggdrasil_redis"}]
+    [
+      description: "Redis adapter for Yggdrasil (pub/sub)",
+      files: ["lib", "mix.exs", "images", "README.md"],
+      maintainers: ["Alexander de Sousa"],
+      licenses: ["MIT"],
+      links: %{
+        "Github" => @root
+      }
+    ]
+  end
+
+  ###############
+  # Documentation
+
+  defp docs do
+    [
+      source_url: @root,
+      source_ref: "v#{@version}",
+      main: Yggdrasil.Redis.Application,
+      formatters: ["html"],
+      groups_for_modules: groups_for_modules()
+    ]
+  end
+
+  defp groups_for_modules do
+    [
+      "Application": [
+        Yggdrasil.Redis.Application
+      ],
+      "Adapter": [
+        Yggdrasil.Settings.Redis,
+        Yggdrasil.Adapter.Redis
+      ],
+      "Subscriber adapter": [
+        Yggdrasil.Subscriber.Adapter.Redis
+      ],
+      "Publisher adapter": [
+        Yggdrasil.Publisher.Adapter.Redis
+      ]
+    ]
   end
 end

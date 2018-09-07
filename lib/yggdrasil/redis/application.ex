@@ -98,7 +98,7 @@ defmodule Yggdrasil.Redis.Application do
 
   ```elixir
   def deps do
-    [{:yggdrasil_redis, "~> 4.0"}]
+    [{:yggdrasil_redis, "~> 4.1"}]
   end
   ```
   """
