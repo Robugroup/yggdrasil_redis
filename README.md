@@ -14,7 +14,7 @@ The following example uses Redis adapter to distribute messages:
 iex(1)> channel = %Yggdrasil.Channel{name: "some_channel", adapter: :redis}
 iex(2)> Yggdrasil.subscribe(channel)
 iex(3)> flush()
-{:Y_CONNECTED, %YggdrasilChannel{(...)}}
+{:Y_CONNECTED, %Yggdrasil.Channel{(...)}}
 ```
 
 and to publish a message for the subscribers:
