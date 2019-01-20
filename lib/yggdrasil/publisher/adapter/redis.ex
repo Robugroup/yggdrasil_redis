@@ -59,14 +59,15 @@ defmodule Yggdrasil.Publisher.Adapter.Redis do
 
   @impl true
   def handle_call(
-    {:publish, %Channel{name: name} = channel, message},
-    _from,
-    %State{conn: conn} = state
-  ) do
+        {:publish, %Channel{name: name} = channel, message},
+        _from,
+        %State{conn: conn} = state
+      ) do
     result =
       with {:ok, encoded} <- Transformer.encode(channel, message),
            {:ok, _} = Redix.command(conn, ~w(PUBLISH #{name} #{encoded})),
            do: :ok
+
     {:reply, result, state}
   end
 

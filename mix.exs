@@ -9,7 +9,7 @@ defmodule YggdrasilRedis.MixProject do
       app: :yggdrasil_redis,
       version: @version,
       elixir: "~> 1.6",
-      build_embedded: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
       deps: deps(),
@@ -67,10 +67,10 @@ defmodule YggdrasilRedis.MixProject do
 
   defp groups_for_modules do
     [
-      "Application": [
+      Application: [
         Yggdrasil.Redis.Application
       ],
-      "Adapter": [
+      Adapter: [
         Yggdrasil.Settings.Redis,
         Yggdrasil.Adapter.Redis
       ],

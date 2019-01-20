@@ -16,8 +16,7 @@ defmodule Yggdrasil.Settings.Redis do
   @envdoc """
   Redis port. Defaults to `6379`.
   """
-  app_env :yggdrasil_redis_port, :yggdrasil, [:redis, :port],
-    default: 6379
+  app_env :yggdrasil_redis_port, :yggdrasil, [:redis, :port], default: 6379
 
   @envdoc """
   Redis password. Defaults to `nil`.
@@ -27,6 +26,5 @@ defmodule Yggdrasil.Settings.Redis do
   @envdoc """
   Redis database. Defaults to `0`.
   """
-  app_env :yggdrasil_redis_database, :yggdrasil, [:redis, :database],
-    default: 0
+  app_env :yggdrasil_redis_database, :yggdrasil, [:redis, :database], default: 0
 end

@@ -58,15 +58,15 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
     options = redis_options(channel)
     {:ok, conn} = Redix.PubSub.start_link(options)
     state = %State{state | conn: conn}
-    Logger.debug(fn -> "Started #{__MODULE__} for #{inspect channel}" end)
+    Logger.debug(fn -> "Started #{__MODULE__} for #{inspect(channel)}" end)
     {:ok, state, 0}
   end
 
   @impl true
   def handle_info(
-    :timeout,
-    %State{conn: conn, channel: %Channel{name: name}} = state
-  ) do
+        :timeout,
+        %State{conn: conn, channel: %Channel{name: name}} = state
+      ) do
     with true <- Process.alive?(conn),
          %Connection{backoff: nil} <- :sys.get_state(conn) do
       Redix.PubSub.psubscribe(conn, name, self())
@@ -74,38 +74,45 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
     else
       false ->
         {:stop, {:error, "Redix process not alive"}, state}
+
       %Connection{} ->
         {:noreply, state, 5000}
     end
   end
+
   def handle_info(
-    {:redix_pubsub, _, :psubscribed, %{pattern: _}},
-    %State{channel: %Channel{} = channel} = state
-  ) do
+        {:redix_pubsub, _, :psubscribed, %{pattern: _}},
+        %State{channel: %Channel{} = channel} = state
+      ) do
     Logger.debug(fn ->
-      "#{__MODULE__} connected to Redis #{inspect channel}"
+      "#{__MODULE__} connected to Redis #{inspect(channel)}"
     end)
+
     Manager.connected(channel)
     {:noreply, state}
   end
+
   def handle_info(
-    {:redix_pubsub, _, :pmessage, %{payload: message}},
-    %State{channel: channel} = state
-  ) do
+        {:redix_pubsub, _, :pmessage, %{payload: message}},
+        %State{channel: channel} = state
+      ) do
     Publisher.notify(channel, message)
     {:noreply, state}
   end
+
   def handle_info(
-    {:redix_pubsub, _, :disconnected, reason},
-    %State{channel: channel} = state
-  ) do
+        {:redix_pubsub, _, :disconnected, reason},
+        %State{channel: channel} = state
+      ) do
     Logger.warn(fn ->
-      "#{__MODULE__} disconnected to Redis #{inspect channel} due to" <>
-      " #{inspect reason}"
+      "#{__MODULE__} disconnected to Redis #{inspect(channel)} due to" <>
+        " #{inspect(reason)}"
     end)
+
     Manager.disconnected(channel)
     {:noreply, state}
   end
+
   def handle_info(_msg, %State{} = state) do
     {:noreply, state}
   end
@@ -114,15 +121,18 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
   def terminate(:normal, %State{channel: channel, conn: conn}) do
     Redix.PubSub.stop(conn)
     Manager.disconnected(channel)
+
     Logger.debug(fn ->
-      "Stopped #{__MODULE__} for #{inspect channel}"
+      "Stopped #{__MODULE__} for #{inspect(channel)}"
     end)
   end
+
   def terminate(reason, %State{channel: channel, conn: conn}) do
     Redix.PubSub.stop(conn)
     Manager.disconnected(channel)
+
     Logger.debug(fn ->
-      "Stopped #{__MODULE__} for #{inspect channel} due to #{inspect reason}"
+      "Stopped #{__MODULE__} for #{inspect(channel)} due to #{inspect(reason)}"
     end)
   end
 
