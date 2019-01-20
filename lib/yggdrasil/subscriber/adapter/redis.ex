@@ -44,7 +44,6 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
   alias Yggdrasil.Channel
   alias Yggdrasil.Subscriber.Publisher
   alias Yggdrasil.Subscriber.Manager
-  alias Yggdrasil.Settings, as: GlobalSettings
   alias Yggdrasil.Settings.Redis, as: Settings
 
   defstruct [:channel, :conn]
@@ -132,66 +131,11 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
 
   @doc false
   def redis_options(%Channel{namespace: namespace}) do
-    options = get_namespace_options(namespace)
-    connection_options = gen_connection_options(namespace)
-    Keyword.merge(options, connection_options)
-  end
-
-  @doc false
-  def get_namespace_options(Yggdrasil) do
-    Skogsra.get_app_env(:yggdrasil, :redis, default: [])
-  end
-  def get_namespace_options(namespace) do
-    Skogsra.get_app_env(:yggdrasil, :redis, default: [], domain: namespace)
-  end
-
-  @doc false
-  def gen_connection_options(namespace) do
-    [host: get_hostname(namespace),
-     port: get_port(namespace),
-     password: get_password(namespace),
-     database: get_database(namespace)]
-  end
-
-  @doc false
-  def get_value(namespace, key, default) do
-    name = GlobalSettings.gen_env_name(namespace, key, "_YGGDRASIL_REDIS_")
-    Skogsra.get_app_env(:yggdrasil, key,
-      domain: [namespace, :redis],
-      default: default,
-      name: name
-    )
-  end
-
-  @doc false
-  def get_hostname(Yggdrasil) do
-    Settings.yggdrasil_redis_hostname()
-  end
-  def get_hostname(namespace) do
-    get_value(namespace, :hostname, Settings.yggdrasil_redis_hostname())
-  end
-
-  @doc false
-  def get_port(Yggdrasil) do
-    Settings.yggdrasil_redis_port()
-  end
-  def get_port(namespace) do
-    get_value(namespace, :port, Settings.yggdrasil_redis_port())
-  end
-
-  @doc false
-  def get_password(Yggdrasil) do
-    Settings.yggdrasil_redis_password()
-  end
-  def get_password(namespace) do
-    get_value(namespace, :password, Settings.yggdrasil_redis_password())
-  end
-
-  @doc false
-  def get_database(Yggdrasil) do
-    Settings.yggdrasil_redis_database()
-  end
-  def get_database(namespace) do
-    get_value(namespace, :database, Settings.yggdrasil_redis_database())
+    [
+      host: Settings.yggdrasil_redis_hostname!(namespace),
+      port: Settings.yggdrasil_redis_port!(namespace),
+      password: Settings.yggdrasil_redis_password!(namespace),
+      database: Settings.yggdrasil_redis_database!(namespace)
+    ]
   end
 end

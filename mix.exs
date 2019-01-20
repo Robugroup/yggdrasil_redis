@@ -1,7 +1,7 @@
 defmodule YggdrasilRedis.MixProject do
   use Mix.Project
 
-  @version "4.1.1"
+  @version "4.1.2"
   @root "https://github.com/gmtprime/yggdrasil_redis"
 
   def project do
@@ -30,10 +30,10 @@ defmodule YggdrasilRedis.MixProject do
   defp deps do
     [
       {:yggdrasil, "~> 4.1"},
-      {:redix_pubsub, "~> 0.4"},
+      {:redix_pubsub, "~> 0.4.2"},
       {:uuid, "~> 1.1", only: [:dev, :test]},
       {:ex_doc, "~> 0.18.4", only: :dev},
-      {:credo, "~> 0.10", only: :dev}
+      {:credo, "~> 1.0", only: :dev}
     ]
   end
 

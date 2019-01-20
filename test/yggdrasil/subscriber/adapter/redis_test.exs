@@ -10,7 +10,7 @@ defmodule Yggdrasil.Subscriber.Adapter.RedisTest do
   alias Yggdrasil.Subscriber.Adapter.Redis
   alias Yggdrasil.Settings
 
-  @registry Settings.yggdrasil_process_registry()
+  @registry Settings.yggdrasil_process_registry!()
 
   test "distribute message" do
     name = UUID.uuid4()
