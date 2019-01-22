@@ -43,7 +43,7 @@ defmodule YggdrasilRedis.MixProject do
   defp package do
     [
       description: "Redis adapter for Yggdrasil (pub/sub)",
-      files: ["lib", "mix.exs", "images", "README.md", ".formatter.exs"],
+      files: ["lib", "mix.exs", "README.md", ".formatter.exs"],
       maintainers: ["Alexander de Sousa"],
       licenses: ["MIT"],
       links: %{
