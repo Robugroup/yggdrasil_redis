@@ -1,7 +1,7 @@
 defmodule YggdrasilRedis.MixProject do
   use Mix.Project
 
-  @version "4.1.2"
+  @version "4.1.3"
   @root "https://github.com/gmtprime/yggdrasil_redis"
 
   def project do
@@ -43,7 +43,7 @@ defmodule YggdrasilRedis.MixProject do
   defp package do
     [
       description: "Redis adapter for Yggdrasil (pub/sub)",
-      files: ["lib", "mix.exs", "images", "README.md"],
+      files: ["lib", "mix.exs", "images", "README.md", ".formatter.exs"],
       maintainers: ["Alexander de Sousa"],
       licenses: ["MIT"],
       links: %{

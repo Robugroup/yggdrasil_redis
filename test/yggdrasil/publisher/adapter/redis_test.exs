@@ -2,8 +2,8 @@ defmodule Yggdrasil.Publisher.Adapter.RedisTest do
   use ExUnit.Case, async: true
 
   alias Yggdrasil.Channel
-  alias Yggdrasil.Registry
   alias Yggdrasil.Publisher.Adapter
+  alias Yggdrasil.Registry
 
   test "publish" do
     channel = %Channel{name: UUID.uuid4(), adapter: :redis}

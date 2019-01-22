@@ -4,8 +4,6 @@
 
 This project is a Redis adapter for `Yggdrasil` publisher/subscriber.
 
-![demo](https://raw.githubusercontent.com/gmtprime/yggdrasil_redis/master/images/demo.gif)
-
 ## Small example
 
 The following example uses Redis adapter to distribute messages:

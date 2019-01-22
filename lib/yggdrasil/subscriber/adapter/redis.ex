@@ -42,9 +42,9 @@ defmodule Yggdrasil.Subscriber.Adapter.Redis do
   require Logger
 
   alias Yggdrasil.Channel
-  alias Yggdrasil.Subscriber.Publisher
-  alias Yggdrasil.Subscriber.Manager
   alias Yggdrasil.Settings.Redis, as: Settings
+  alias Yggdrasil.Subscriber.Manager
+  alias Yggdrasil.Subscriber.Publisher
 
   defstruct [:channel, :conn]
   alias __MODULE__, as: State
